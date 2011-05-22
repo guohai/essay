@@ -1,0 +1,36 @@
+Mostly Used Command(s)
+
+@email xscript(AT)live.com
+@site http://guoh.org/
+@date 2010-08-21
+@description These commands are for most linux...
+
+
+1、后台起weblogic
+nohup ./startWebLogic.sh > log_name.log &
+nohup ./startWebLogic.sh &
+
+2、查看java进程
+ps -ef | grep java
+
+3、删除文件夹
+rm -rif dir_name
+
+4、jar解zip压缩包
+jar -xvf file_name.zip
+
+5、查看日志
+tail -f log_name.log
+
+6、查看用户允许打开的最大文件数等
+ulimit -a
+设置这个上限数量 ulimit -n 2048
+
+7、查看进程打开的文件状况
+lsof -p process_id
+
+8、
+lsof | grep java
+
+
+
