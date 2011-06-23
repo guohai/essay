@@ -1,0 +1,32 @@
+环境为Linux
+
+1、申请github帐号
+
+2、本机
+
+$ssh-keygen -t rsa
+linux下只要执行这么多就行了，然后根据提示进行操作
+生成的公钥私钥在~/.ssh下面
+上传公钥到github服务器
+测试能否成功连接github服务器
+
+3、在github上创建项目，比如proj_dir
+然后它会给你提示
+比如项目提交的路径等等
+基本上就是如下这样
+设置全局参数
+$mkdir proj_dir
+$git init
+$touch README
+$git add README
+$git commit -m 'some comments'
+$git remote add origin git@github.com:username/proj_dir.git
+$git push origin master
+
+以后修改文件之后就可以不断地commit和push了
+-----------------------------------------------------------
+ 
+git就是本地和远程都有版本控制库，所以本地远程都要提交
+
+如何直接从git创建eclipse项目，目前是repositories创建一个项目，然后把java build相关的文件拷贝过来
+
