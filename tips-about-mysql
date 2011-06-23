@@ -1,0 +1,26 @@
+有关MySQL奇技淫巧(一般都是Linux下的，其它平台自行尝试)
+
+0、学会查看MySQL错误日志
+日志名一般为HOST_NAME.err，在里面说不定很容易找到你想要的东西
+
+1、开启MySQL General Query Log
+想查看MySQL执行了哪些SQL语句？
+那么就开启这个日志吧
+http://dev.mysql.com/doc/refman/5.1/en/query-log.html
+http://dev.mysql.com/doc/refman/5.1/en/log-destinations.html
+可以通过启动mysqld加入相关参数开启
+
+当然更方便的是可以动态开启（不用重启数据库，貌似对MySQL版本有要求）
+参见http://www.taobaodba.com/html/477_%E5%8A%A8%E6%80%81%E5%BC%80%E5%90%AFmysql-general-log.html
+
+mysql> set global log_output = file;
+mysql> set global general_log_file='/home/guohai/dev/x/topics/mysql/sql.log';
+mysql> set global general_log=on;
+
+还有个要求就是MySQL对该日志文件有读写权限，我把它的own和group全改成跟MySQL对应的了，要不然报错
+
+关闭只需要
+mysql> set global general_log=off;
+
+2、
+
