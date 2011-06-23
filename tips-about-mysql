@@ -11,7 +11,7 @@ http://dev.mysql.com/doc/refman/5.1/en/log-destinations.html
 可以通过启动mysqld加入相关参数开启
 
 当然更方便的是可以动态开启（不用重启数据库，貌似对MySQL版本有要求）
-参见http://www.taobaodba.com/html/477_%E5%8A%A8%E6%80%81%E5%BC%80%E5%90%AFmysql-general-log.html
+http://www.taobaodba.com/html/477_动态开启mysql-general-log.html
 
 mysql> set global log_output = file;
 mysql> set global general_log_file='/home/guohai/dev/x/topics/mysql/sql.log';
