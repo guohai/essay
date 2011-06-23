@@ -8,10 +8,10 @@
 那么就开启这个日志吧
 http://dev.mysql.com/doc/refman/5.1/en/query-log.html
 http://dev.mysql.com/doc/refman/5.1/en/log-destinations.html
-可以通过启动mysqld加入相关参数开启
+可以通过启动mysqld加入相关参数或者动态开启
 
-当然更方便的是可以动态开启（不用重启数据库，貌似对MySQL版本有要求）
-http://www.taobaodba.com/html/477_动态开启mysql-general-log.html
+当然最方便的还是动态开启（不用重启数据库，貌似对MySQL版本有要求）
+中文参考：http://www.taobaodba.com/html/477_动态开启mysql-general-log.html
 
 mysql> set global log_output = file;
 mysql> set global general_log_file='/home/guohai/dev/x/topics/mysql/sql.log';
