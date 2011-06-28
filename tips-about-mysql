@@ -22,5 +22,21 @@ mysql> set global general_log=on;
 关闭只需要
 mysql> set global general_log=off;
 
-2、
+2、innotop使用
+去http://code.google.com/p/innotop/下载最新版的安装包，这里用的是innotop-1.8.0
+按照安装说明安装好，更详细的安装说明可以参见http://crazytoon.com/2008/05/21/mysql-how-do-you-install-innotop-to-monitor-innodb-in-real-time/
+可能innotop版本不一样，自己稍微变通下
+第一次运行innotop的时候会叫你输入一些配置信息，比如数据库链接信息
+这个你可以在~/.innotop/innotop.conf中修改
+guohai@KNIGHT:~/.innotop$ tree
+.
+|-- innotop.conf
+`-- plugins
+
+1 directory, 1 file
+
+man innotop是永远不能少的
+另外可以参见http://5iwww.blog.51cto.com/856039/570669
+
+
 
