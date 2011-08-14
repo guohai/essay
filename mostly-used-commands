@@ -32,5 +32,13 @@ lsof -p process_id
 8、
 lsof | grep java
 
+9、把一个文件压缩拷贝到另一台机器上解压
+gzip -c $SRC_FILE_PATH | ssh root@remote_server "gunzip -c - > $DES_FILE_PATH"
 
+10、高效的传递文件
+从server1传递到server2
+server2$ nc -l -p 12345 | tar zxvf -
+server1$ tar cvzf - /var/lib/mysql/mydb/mytable.MYD | nc -q 1 server2 123456
+
+11、
 
