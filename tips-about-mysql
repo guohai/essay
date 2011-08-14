@@ -37,6 +37,7 @@ guohai@KNIGHT:~/.innotop$ tree
 
 man innotop是永远不能少的
 另外可以参见http://5iwww.blog.51cto.com/856039/570669
+http://blog.csdn.net/qiuyepiaoling/archive/2010/11/29/6042379.aspx
 
 3、mysql命令的一些有用参数选项
 生产环境中手工操作数据库是个技术活
@@ -53,7 +54,11 @@ http://www.developer.com/db/10-command-line-timesavers-for-mysql-tasks.html
 http://www.ningoo.net/html/2008/mysql_cmdline_html_xml_prompt.html
 自己也可以查看手册找到一些有用的信息
 
+4、create table log_20110630 like log_template;
+like子句会复制表结构，包括索引等，不包括权限
 
+create table log_20110701 as select * from log_20110630;
+复制数据，不包括索引
 
 
 
