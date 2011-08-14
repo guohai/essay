@@ -1,0 +1,64 @@
+安装Sphinx
+
+Linux 2.6.35-28
+sphinx-0.9.9
+mysql-5.1.57
+
+
+ ./configure --prefix=/home/guohai/dev/a/mysql/sphinx --with-mysql=/home/guohai/dev/a/mysql/mysql-5.1.57-linux2.6-i686
+
+make && make install
+
+cd $SPHINX/etc/
+
+cp sphinx.conf.dist sphinx.conf
+
+# some straightforward parameters for SQL source types
+sql_host                                = 127.0.0.1
+sql_user                                = root
+sql_pass                                = ****
+sql_db                                  = test
+sql_port                                = 3307  # optional, default is 3306
+
+# UNIX socket name
+# optional, default is empty (reuse client library defaults)
+# usually '/var/lib/mysql/mysql.sock' on Linux
+# usually '/tmp/mysql.sock' on FreeBSD
+sql_sock                    = /tmp/mysql51.sock                                                                                       
+
+
+mysql -uroot --socket=/tmp/mysql51.sock -p < /home/guohai/dev/a/mysql/sphinx/etc/example.sql
+
+bin/search test
+
+也可以作为服务启动，供其他接口调用，比如Java API
+guohai@KNIGHT:~/dev/a/mysql/sphinx$ bin/searchd 
+Sphinx 0.9.9-release (r2117)
+Copyright (c) 2001-2009, Andrew Aksyonoff
+
+using config file '/home/guohai/dev/a/mysql/sphinx/etc/sphinx.conf'...
+listening on all interfaces, port=9312
+WARNING: multiple addresses found for 'localhost', using the first one (ip=127.0.0.1)
+
+
+编译Java API
+$SPHINX_SRC/api/java
+
+执行客户端，搜索test关键字的结果
+java -jar sphinxapi.jar --host 127.0.0.1 --port 9312 test
+Query 'test ' retrieved 3 of 3 matches in 0.0 sec.
+Query stats:
+	'test' found 10 times in 6 documents
+
+Matches:
+1. id=1, weight=101, group_id=1, date_added=Sun Aug 14 17:41:12 CST 2011
+2. id=2, weight=101, group_id=1, date_added=Sun Aug 14 17:41:12 CST 2011
+3. id=4, weight=1, group_id=2, date_added=Sun Aug 14 17:41:12 CST 2011
+
+
+
+另外参见
+http://www.coreseek.com/
+http://www.cnblogs.com/chenzehe/archive/2010/11/04/1868354.html 系列文章
+
+
