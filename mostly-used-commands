@@ -40,5 +40,6 @@ gzip -c $SRC_FILE_PATH | ssh root@remote_server "gunzip -c - > $DES_FILE_PATH"
 server2$ nc -l -p 12345 | tar zxvf -
 server1$ tar cvzf - /var/lib/mysql/mydb/mytable.MYD | nc -q 1 server2 123456
 
-11、
+11、查找并替换文本文件中的内容(批量)
+sed -i "s/testhello/testworld/g" `grep -irl testhello *`
 
