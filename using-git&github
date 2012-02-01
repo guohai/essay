@@ -36,5 +36,8 @@ UPDATE:
 $ git config --list
 $ git clone git@github.com:username/proj_dir.git
 
-
+更多参考
+http://www.cnblogs.com/python_newbie/archive/2010/07/20/1779338.html
+http://www.worldhello.net/2010/02/09/341.html
+http://wenku.baidu.com/view/c78248be960590c69ec376b6.html
 
