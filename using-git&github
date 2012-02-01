@@ -4,8 +4,8 @@
 
 2、本机
 
-$ssh-keygen -t rsa
-linux下只要执行这么多就行了，然后根据提示进行操作
+$ssh-keygen -t rsa -C "username@example.com"
+linux下只要执行这么多就行了，然后根据提示进行操作(详细参见http://help.github.com/linux-set-up-git/)
 生成的公钥私钥在~/.ssh下面
 上传公钥到github服务器
 测试能否成功连接github服务器
@@ -29,4 +29,12 @@ $git push origin master
 git就是本地和远程都有版本控制库，所以本地远程都要提交
 
 如何直接从git创建eclipse项目，目前是repositories创建一个项目，然后把java build相关的文件拷贝过来
+UPDATE:
+当Git和Perforce等版本控制工具用习惯了之后就会理解需要版本管理的资源和开发工具没有很强的关联，所以开发工具相关的配置文件应该单独在本地，不需要提交到版本控制系统
+
+常用Git命令
+$ git config --list
+$ git clone git@github.com:username/proj_dir.git
+
+
 
