@@ -34,6 +34,7 @@ UPDATE:
 
 常用Git命令
 $ git config --list
+$ git config --global user.name "Hai"
 $ git clone git@github.com:username/proj_dir.git
 
 更多参考
