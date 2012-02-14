@@ -1,0 +1,85 @@
+编译可以在Android上运行的native(C/C++)程序 Hello C on Android
+
+JNI编程都会，写出一个共享库(.so)，然后Java代码来调用
+
+现在来编译一个可执行的native程序直接在Android Device上运行
+这里以C语言来测试
+
+一样按照通常的编程步骤来进行，编写源文件，用编译器编译，链接器链接，然后运行
+
+编写源文件和运行的环境都比较好弄，编译器和链接器这里就稍稍有点不同。
+因为Android所采用的kernel不是标准的Linux Kernel，C库用的是Bionic(http://en.wikipedia.org/wiki/Bionic_(software))
+所以用普通的一套GNU工具编译出来的是不能在Android上面运行的，还好Android给我们提供了一些工具来完成这些。
+
+有两种方式可以达到这个目的：
+1、编译Android ROM的时候会生成这些相关的工具，我们可以利用这些工具来编译生成我们的程序。
+http://android-tricks.blogspot.com/2009/02/hello-world-c-program-on-using-android.html
+http://plausible.org/andy/agcc
+中文的介绍可以看这里http://blog.claudxiao.net/2011/10/android_agcc/
+但是我测试了下，没有成功，时间比较紧就没有来具体去查原因，有空再来看看。
+下面是我用这种方式所产生的错误，如果你知道原因，欢迎能告诉我
+$ agcc.pl -o hello hello.c
+/home/guohai/src/ics/prebuilt/linux-x86/toolchain/arm-eabi-4.3.1/bin/../lib/gcc/arm-eabi/4.3.1/../../../../arm-eabi/bin/ld: warning: /tmp/cc8eCaMQ.o uses variable-size enums yet the output is to use 32-bit enums; use of enum values across objects may fail
+
+更多关于aggc的信息
+http://blog.v-lad.org/archives/26
+http://www.pocketmagic.net/?p=682
+http://betelco.blogspot.com/2010/01/buildingdebugging-android-native-c.html
+
+2、通过Android NDK来编译生成，这个比较简单
+我是参照http://ideone.com/lt6BW修改过来的
+为了简单起见，脚本里面的路径都是hard code，我修改过的版本参见。
+对比下应该很好改出自己的版本，使用的时候要记得给这个脚本可执行权限，并且最好把该脚本增加到PATH当中，方便后面的使用。
+
+但是直接运行agcc会报错，如下
+$ agcc
+GCC:/home/guohai/dev/android-ndk-r7/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/arm-linux-androideabi-gcc LIB:/home/guohai/vocume/dev/android-ndk-r7/platforms/android-14/arch-arm/usr/lib LINKER:/system/bin/linker PARAMS:
+/home/guohai/dev/android-ndk-r7/platforms/android-14/arch-arm/usr/lib/crtbegin_dynamic.o: In function `_start':
+(.text+0x14): undefined reference to `main'
+collect2: ld returned 1 exit status
+如果你发现是这个错误，不要担心，可能是这个原因http://www.mobitnt.com/Blog/?p=150。
+只要你输入的命令是完整的，比如agcc hello.c -o hello，应该就不会出错。
+
+
+suppose后面该脚本的使用都是满足这些条件的。
+
+现在基本环境都搭建好了，我们还没有源程序。
+
+先在Host Machine上编写一个c的文件
+
+$ more hello.c
+#include <stdio.h>
+
+main()
+{
+    printf ("Hello C on Android!\n");
+}
+
+然后运行agcc hello.c -o hello，如果没有任何错误的话，就应该看到有如下的返回，并且生成了一个hello文件。
+$ agcc hello.c -o hello
+GCC:/home/guohai/dev/android-ndk-r7/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/arm-linux-androideabi-gcc LIB:/home/guohai/dev/android-ndk-r7/platforms/android-14/arch-arm/usr/lib LINKER:/system/bin/linker PARAMS:hello.c -o hello
+执行
+$ file hello
+hello: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically linked (uses shared libs), not stripped
+返回信息应该是类似上面这样的。
+
+
+现在就只差最后一步了，把程序放到Android上去运行
+
+$ adb remount
+$ adb shell mkdir /data/hello_c
+$ adb push hell /data/hello_c
+$ adb shell
+# cd /data/hello_c/
+# ./hello
+
+应该在ADB Shell上会出现
+Hello C on Android!
+
+这样这个实验就算完成了。后面会有实际的应用。
+
+
+PS.
+如果你直接用gcc编译出来，放到Android上面去运行会出现
+/system/bin/sh: ./android-smemcap: not executable: magic 7F45
+

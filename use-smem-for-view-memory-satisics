@@ -1,0 +1,74 @@
+现在我们用agcc来编译一个真正有用的东西(smem)，然后让它跑在Android上面，这是一个用来监测Memory Use的工具，它比Android原生的procmem准确。
+对做Memory Optimization是很有用处的一个命令工具。
+详细信息查看http://www.elinux.org/Using_smem_on_Android
+
+现在开始让它跑在Android上面吧
+
+最开始我用Mercurial下载了最新的源码(hg clone http://selenic.com/repo/smem)编译，发现出错。
+找到一封邮件(http://selenic.com/pipermail/smem/2010-November.txt)说是可能和操作系统版本有关系，我是Ubuntu_X64的机器。
+所以又重新下载了http://www.selenic.com/smem/download/smem-0.9.tar.gz，这个版本对于我来说是好用的。
+
+具体使用步骤比较简单，解压出来放到一个文件夹。
+
+/smem-0.9$ agcc smemcap.c -o a-smem
+/smem-0.9$ adb remount
+/smem-0.9$ adb shell mkdir /data/smem
+/smem-0.9$ adb push a-smem /data/smem
+/smem-0.9$ adb shell
+# cd /data/smem
+# ./a-smem >> memdata-moto.tar
+/smem-0.9$ adb pull /data/smem/smem_data_moto.tar
+/smem-0.9$ smem -S smem_data_moto.tar 
+  PID User     Command                         Swap      USS      PSS      RSS 
+ 1439 1008     /system/bin/akmd2                  0       32       32       36 
+12021 0        /system/bin/debuggerd              0       48       49      156 
+ 1431 0        /system/bin/installd               0       68       70      204 
+ 1432 1017     /system/bin/keystore /data/        0       72       73      168 
+ 1410 1001     /system/bin/nvm_daemon             0       76       77      204 
+ 1447 1000     /system/bin/secclkd                0       76       77      192 
+ 1403 1000     /system/bin/servicemanager         0       80       81      196 
+ 1430 1002     /system/bin/dbus-daemon --s        0       84       86      212 
+18130 0        /system/bin/dhcpcd -ABKL ti        0       92       94      248 
+ 1409 0        /system/bin/usbd                   0      100      102      240 
+ 1433 0        /system/xbin/ssmgrd                0      100      102      240 
+ 1451 0        opprofdaemon                       0      100      107      276 
+ 1421 1001     /system/bin/rild_tcmd              0      100      121      344 
+ 1413 0        /system/bin/gkisystem              0      112      125      332 
+ 1423 0        /system/bin/catcommands            0      108      125      352 
+ 1437 1001     /system/bin/panic_daemon           0      124      126      316 
+ 1405 0        /system/bin/netd                   0      144      152      300 
+ 1404 0        /system/bin/vold                   0      152      160      316 
+ 1422 0        /system/bin/battd                  0      164      167      372 
+19390 0        /system/bin/sh -                   0      144      173      376 
+ 1449 0        location                           0      168      191      428 
+ 1402 0        /sbin/adbd                         0      228      228      248 
+    1 0        /init                              0      260      260      288 
+ 1444 1001     /system/bin/brcm_guci_drv -        0      276      287      496 
+ 1758 0        /system/bin/wpa_supplicant         0      324      326      476 
+ 1435 0        /system/bin/tcmd                   0      344      347      536 
+19392 0        ./a-smem                           0      336      361      540 
+ 1407 0        /system/bin/rild                   0      472      506      828 
+ 1448 0        protocol_driver                    0      740      776     1096 
+ 1426 0        zygote /bin/app_process -Xz        0     1064     1742    12332 
+ 1427 1013     /system/bin/mediaserver            0     2028     2034     2324 
+19278 10021    android.process.media              0     2388     3335    16900 
+ 1783 10049    com.motorola.usb                   0     2552     3360    15012 
+19257 10074    com.picplz.rangefinder             0     2612     3578    17232 
+19266 10093    com.google.android.apps.plu        0     3180     4161    17876 
+ 2481 10070    com.tencent.mm:push                0     3908     4562    15608 
+19311 10053    com.google.android.apps.map        0     2808     5167    21776 
+19344 10085    cn.com.fetion                      0     4152     6327    21236 
+18709 10053    com.google.android.apps.map        0     5420     6561    20100 
+ 2011 10030    com.android.mms                    0     5720     6585    18920 
+ 1834 10059    com.google.process.gapps           0     6004     6704    17952 
+19375 10022    com.android.email                  0     5616     6994    21076 
+19330 10086    com.tencent.WBlog                  0     4064     7054    22436 
+19302 10053    com.google.android.apps.map        0     4940     7510    24692 
+ 1780 1001     com.android.phone                  0     8960     9690    21508 
+ 1773 10069    com.cootek.smartinputv5            0     9400    10111    21592 
+ 7687 10004    android.process.acore              0    12364    14029    26980 
+ 1693 1000     system_server                      0    39128    40908    57464 
+
+这样你就可以看出Android上每个process所占用的内存情况，基本可以满足日常使用了,简单好用。
+更多更高级的用法可以参见主页http://www.selenic.com/smem/。
+
