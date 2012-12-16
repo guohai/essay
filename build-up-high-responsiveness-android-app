@@ -1,0 +1,29 @@
+开发高响应的Android应用
+
+网络上从来没有间断过对Android为什么这么慢的质疑，硬件配置高，但用起来就是不顺，顿卡，等等各种现象。
+https://plus.google.com/100838276097451809262/posts/VDkV9XaJRGS
+http://mobile.163.com/12/1123/05/8GVKOL7D0011309K_all.html
+http://www.evolife.cn/html/2011/62866.html
+可以参阅以上一些文章
+
+除了Android的framework本身的设计因素外，那还有哪些地方值得我们注意的呢？
+1、控制好APP的thread，UI响应的事情放到UI thread(也就是默认的main thread)，其他比较耗时或者
+跟UI不紧密的操作放到worker thread(这个需要开发者自己设计实现的一个thread，多半是执行和UI没有
+什么关系的操作，并最终把需要显示的数据post回给UI thread)，一般它需要快速响应来自UI thread的事
+件请求，比如添加一个action(action就是UI thread接收到用户的事件之后需要做的动作)进来，删除某个
+action，调整action的优先级。
+
+2、不要让APP的thread爆掉，Java语言当中thread的使用很是简单和方便，正是因为好用所以不要滥用。
+
+3、用户离开APP的时候，不需要再执行的操作就不必要再执行了。因为Android kernal支持完全的多进程，
+所以用户离开了可能一些操作还是会占用CPU在执行，这是应当避免的。虽然会增加程序开发的复杂度，但是谁让
+你做Android开发呢？
+
+4、适当降低worker thread的优先级，这点很容易被人忽视，默认创建出来的thread的优先级和
+main thread是一样，如果不降低它也会跟main thread抢CPU
+
+5、友好的loading提示，这一招是心理战，但是也管用。
+
+当然还有你的程序要写的高效率啦，现在很多人都能抱着能运行就好的心态，bug能不解就不解的心态，
+这样怎么可能出高质量的APP的呢？高品质的东西是细细打磨出来的。
+
