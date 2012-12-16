@@ -27,3 +27,17 @@ main thread是一样，如果不降低它也会跟main thread抢CPU
 当然还有你的程序要写的高效率啦，现在很多人都能抱着能运行就好的心态，bug能不解就不解的心态，
 这样怎么可能出高质量的APP的呢？高品质的东西是细细打磨出来的。
 
+
+PS. 以下一些命令或者工具可能是有帮助的
+$ adb shell top -m MAX_PROCESS_COUNT
+$ adb shell top -m MAX_THREAD_COUNT -t
+
+例如
+$ adb shell top -m 20
+
+
+Systrace参见
+http://developer.android.com/tools/help/systrace.html
+
+Traceview参见
+http://developer.android.com/tools/help/traceview.html
